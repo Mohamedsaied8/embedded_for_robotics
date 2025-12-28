@@ -26,6 +26,8 @@ Makefile
 !.vscode/c_cpp_properties.json
 !.vscode/tasks.json
 !.vscode/launch.json
+!.vscode/extensions.json
+!.vscode/settings.json
 .idea/
 *.swp
 *.swo

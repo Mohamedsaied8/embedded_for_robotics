@@ -38,6 +38,31 @@ st-flash --version
 cmake --version
 ```
 
+## VSCode GUI Debugging (Recommended)
+
+For the best development experience with GUI debugging, breakpoints, and peripheral inspection:
+
+### Install VSCode Extensions
+
+When you open this project in VSCode, install the recommended extensions:
+- **Cortex-Debug** - Essential for STM32 GUI debugging
+- **C/C++ Extension Pack** - IntelliSense and code navigation
+- **CMake Tools** - CMake integration
+
+### Quick Start
+
+1. **Build**: Press `Ctrl+Shift+B` or run `./build.sh`
+2. **Debug**: Press `F5` or click the Run/Debug button (▶️)
+3. **Set Breakpoints**: Click in the left margin next to line numbers
+
+See [VSCODE_DEBUG_GUIDE.md](VSCODE_DEBUG_GUIDE.md) for complete instructions.
+
+### Debug Configurations Available
+
+- **Cortex Debug (OpenOCD)** - Full GUI with peripheral registers (recommended)
+- **Cortex Debug (ST-Link)** - Direct ST-Link connection
+- **Debug (GDB - OpenOCD)** - Fallback GDB option
+
 ## Project Structure
 
 ```
