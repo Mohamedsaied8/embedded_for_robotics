@@ -1,0 +1,6 @@
+# Build directories
+build/
+*.elf
+*.bin
+*.hex
+*.map

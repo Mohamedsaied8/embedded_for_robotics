@@ -1,0 +1,117 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Cortex Debug (OpenOCD)",
+            "cwd": "${workspaceFolder}",
+            "executable": "${workspaceFolder}/build/stm32_gpio_test.elf",
+            "request": "launch",
+            "type": "cortex-debug",
+            "runToEntryPoint": "main",
+            "servertype": "openocd",
+            "configFiles": [
+                "${workspaceFolder}/scripts/openocd.cfg"
+            ],
+            "searchDir": [],
+            "openOCDLaunchCommands": [
+                "monitor reset init",
+                "monitor halt"
+            ],
+            "preLaunchTask": "Build",
+            "showDevDebugOutput": "none",
+            "svdFile": "",
+            "device": "STM32F103C8",
+            "interface": "swd",
+            "serialNumber": "",
+            "swoConfig": {
+                "enabled": false,
+                "cpuFrequency": 72000000,
+                "swoFrequency": 2000000,
+                "source": "probe",
+                "decoders": [
+                    {
+                        "type": "console",
+                        "label": "ITM",
+                        "port": 0
+                    }
+                ]
+            },
+            "graphConfig": [],
+            "preLaunchCommands": [],
+            "postLaunchCommands": [],
+            "overrideLaunchCommands": [],
+            "postRestartCommands": [],
+            "overrideRestartCommands": []
+        },
+        {
+            "name": "Cortex Debug (ST-Link)",
+            "cwd": "${workspaceFolder}",
+            "executable": "${workspaceFolder}/build/stm32_gpio_test.elf",
+            "request": "launch",
+            "type": "cortex-debug",
+            "runToEntryPoint": "main",
+            "servertype": "stlink",
+            "device": "STM32F103C8",
+            "interface": "swd",
+            "serialNumber": "",
+            "v1": false,
+            "preLaunchTask": "Build",
+            "showDevDebugOutput": "none",
+            "swoConfig": {
+                "enabled": false,
+                "cpuFrequency": 72000000,
+                "swoFrequency": 2000000,
+                "source": "probe",
+                "decoders": [
+                    {
+                        "type": "console",
+                        "label": "ITM",
+                        "port": 0
+                    }
+                ]
+            }
+        },
+        {
+            "name": "Debug (GDB - OpenOCD)",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/build/stm32_gpio_test.elf",
+            "args": [],
+            "stopAtEntry": true,
+            "cwd": "${workspaceFolder}",
+            "environment": [],
+            "externalConsole": false,
+            "MIMode": "gdb",
+            "miDebuggerPath": "/usr/bin/arm-none-eabi-gdb",
+            "miDebuggerServerAddress": "localhost:3333",
+            "setupCommands": [
+                {
+                    "description": "Enable pretty-printing for gdb",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                },
+                {
+                    "description": "Reset and halt target",
+                    "text": "monitor reset halt",
+                    "ignoreFailures": false
+                },
+                {
+                    "description": "Load program",
+                    "text": "load",
+                    "ignoreFailures": false
+                }
+            ],
+            "preLaunchTask": "Build",
+            "serverLaunchTimeout": 20000,
+            "filterStderr": true,
+            "filterStdout": false,
+            "logging": {
+                "moduleLoad": true,
+                "trace": false,
+                "engineLogging": false,
+                "programOutput": true,
+                "exceptions": true
+            }
+        }
+    ]
+}

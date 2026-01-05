@@ -8,17 +8,14 @@
 #include "main.h"
 #include "stm32f1xx_it.h"
 
-/******************************************************************************/
-/*           Cortex-M3 Processor Interruption and Exception Handlers          */ 
-/******************************************************************************/
 /**
   * @brief This function handles Non maskable interrupt.
   */
 void NMI_Handler(void)
 {
-  while (1)
-  {
-  }
+    while (1)
+    {
+    }
 }
 
 /**
@@ -26,9 +23,9 @@ void NMI_Handler(void)
   */
 void HardFault_Handler(void)
 {
-  while (1)
-  {
-  }
+    while (1)
+    {
+    }
 }
 
 /**
@@ -36,9 +33,9 @@ void HardFault_Handler(void)
   */
 void MemManage_Handler(void)
 {
-  while (1)
-  {
-  }
+    while (1)
+    {
+    }
 }
 
 /**
@@ -46,9 +43,9 @@ void MemManage_Handler(void)
   */
 void BusFault_Handler(void)
 {
-  while (1)
-  {
-  }
+    while (1)
+    {
+    }
 }
 
 /**
@@ -56,9 +53,9 @@ void BusFault_Handler(void)
   */
 void UsageFault_Handler(void)
 {
-  while (1)
-  {
-  }
+    while (1)
+    {
+    }
 }
 
 /**
@@ -87,13 +84,5 @@ void PendSV_Handler(void)
   */
 void SysTick_Handler(void)
 {
-  //TODO
+    HAL_IncTick();
 }
-
-
-/******************************************************************************/
-/* STM32F1xx Peripheral Interrupt Handlers                                    */
-/* Add here the Interrupt Handlers for the used peripherals.                  */
-/* For the available peripheral interrupt handler names,                      */
-/* please refer to the startup file (startup_stm32f1xx.s).                    */
-/******************************************************************************/

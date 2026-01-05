@@ -1,0 +1,3 @@
+/media/mohamed/Robotics1/repos/embedded_for_robotics/oled_display/build/CMakeFiles/oled_display.elf.dir
+/media/mohamed/Robotics1/repos/embedded_for_robotics/oled_display/build/CMakeFiles/edit_cache.dir
+/media/mohamed/Robotics1/repos/embedded_for_robotics/oled_display/build/CMakeFiles/rebuild_cache.dir
