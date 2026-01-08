@@ -32,9 +32,9 @@ if ! command -v st-flash &> /dev/null; then
     exit 1
 fi
 
-# Flash the binary
+# Flash the binary (using connect under reset for reliability)
 echo "Flashing..."
-st-flash --reset write "$BINARY" "$FLASH_ADDR"
+st-flash --connect-under-reset --reset write "$BINARY" "$FLASH_ADDR"
 
 if [ $? -eq 0 ]; then
     echo "========================================="

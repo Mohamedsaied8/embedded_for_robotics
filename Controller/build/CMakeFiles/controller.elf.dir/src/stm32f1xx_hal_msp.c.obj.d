@@ -1,0 +1,29 @@
+CMakeFiles/controller.elf.dir/src/stm32f1xx_hal_msp.c.obj: \
+ /media/mohamed/Robotics1/repos/embedded_for_robotics/Controller/src/stm32f1xx_hal_msp.c \
+ /media/mohamed/Robotics1/repos/embedded_for_robotics/Controller/inc/main.h \
+ /media/mohamed/Robotics1/repos/embedded_for_robotics/Controller/../STM32Cube_FW_F1_V1.8.0/Drivers/CMSIS/Device/ST/STM32F1xx/Include/stm32f1xx.h \
+ /media/mohamed/Robotics1/repos/embedded_for_robotics/Controller/../STM32Cube_FW_F1_V1.8.0/Drivers/CMSIS/Device/ST/STM32F1xx/Include/stm32f103xb.h \
+ /media/mohamed/Robotics1/repos/embedded_for_robotics/Controller/../STM32Cube_FW_F1_V1.8.0/Drivers/CMSIS/Include/core_cm3.h \
+ /usr/lib/gcc/arm-none-eabi/10.3.1/include/stdint.h \
+ /media/mohamed/Robotics1/repos/embedded_for_robotics/Controller/../STM32Cube_FW_F1_V1.8.0/Drivers/CMSIS/CMSIS_5/CMSIS/Core/Include/cmsis_version.h \
+ /media/mohamed/Robotics1/repos/embedded_for_robotics/Controller/../STM32Cube_FW_F1_V1.8.0/Drivers/CMSIS/CMSIS_5/CMSIS/Core/Include/cmsis_compiler.h \
+ /media/mohamed/Robotics1/repos/embedded_for_robotics/Controller/../STM32Cube_FW_F1_V1.8.0/Drivers/CMSIS/CMSIS_5/CMSIS/Core/Include/cmsis_gcc.h \
+ /media/mohamed/Robotics1/repos/embedded_for_robotics/Controller/../STM32Cube_FW_F1_V1.8.0/Drivers/CMSIS/Device/ST/STM32F1xx/Include/system_stm32f1xx.h \
+ /media/mohamed/Robotics1/repos/embedded_for_robotics/Controller/../STM32Cube_FW_F1_V1.8.0/Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h \
+ /media/mohamed/Robotics1/repos/embedded_for_robotics/Controller/inc/stm32f1xx_hal_conf.h \
+ /media/mohamed/Robotics1/repos/embedded_for_robotics/Controller/../STM32Cube_FW_F1_V1.8.0/Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_rcc.h \
+ /media/mohamed/Robotics1/repos/embedded_for_robotics/Controller/../STM32Cube_FW_F1_V1.8.0/Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_def.h \
+ /media/mohamed/Robotics1/repos/embedded_for_robotics/Controller/../STM32Cube_FW_F1_V1.8.0/Drivers/STM32F1xx_HAL_Driver/Inc/Legacy/stm32_hal_legacy.h \
+ /usr/lib/gcc/arm-none-eabi/10.3.1/include/stddef.h \
+ /media/mohamed/Robotics1/repos/embedded_for_robotics/Controller/../STM32Cube_FW_F1_V1.8.0/Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_rcc_ex.h \
+ /media/mohamed/Robotics1/repos/embedded_for_robotics/Controller/../STM32Cube_FW_F1_V1.8.0/Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_gpio.h \
+ /media/mohamed/Robotics1/repos/embedded_for_robotics/Controller/../STM32Cube_FW_F1_V1.8.0/Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_gpio_ex.h \
+ /media/mohamed/Robotics1/repos/embedded_for_robotics/Controller/../STM32Cube_FW_F1_V1.8.0/Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_dma.h \
+ /media/mohamed/Robotics1/repos/embedded_for_robotics/Controller/../STM32Cube_FW_F1_V1.8.0/Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_dma_ex.h \
+ /media/mohamed/Robotics1/repos/embedded_for_robotics/Controller/../STM32Cube_FW_F1_V1.8.0/Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_cortex.h \
+ /media/mohamed/Robotics1/repos/embedded_for_robotics/Controller/../STM32Cube_FW_F1_V1.8.0/Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_flash.h \
+ /media/mohamed/Robotics1/repos/embedded_for_robotics/Controller/../STM32Cube_FW_F1_V1.8.0/Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_flash_ex.h \
+ /media/mohamed/Robotics1/repos/embedded_for_robotics/Controller/../STM32Cube_FW_F1_V1.8.0/Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_pwr.h \
+ /media/mohamed/Robotics1/repos/embedded_for_robotics/Controller/../STM32Cube_FW_F1_V1.8.0/Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim.h \
+ /media/mohamed/Robotics1/repos/embedded_for_robotics/Controller/../STM32Cube_FW_F1_V1.8.0/Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim_ex.h \
+ /media/mohamed/Robotics1/repos/embedded_for_robotics/Controller/../STM32Cube_FW_F1_V1.8.0/Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_uart.h

@@ -1,6 +1,7 @@
 #include "uart.h"
 
-#define FOSC 8000000
+/* USART1 is on APB2 bus which runs at 72MHz after PLL configuration */
+#define PCLK2 72000000
 #define BAUD 9600
 
 char USART_ReadChar() {
@@ -11,7 +12,8 @@ char USART_ReadChar() {
 
 void USART_sendChar(char data) {
   USART1->DR = data & 0xFF;
-  while (!(USART1->SR & USART_SR_TXE));
+  while (!(USART1->SR & USART_SR_TXE))
+    ;
 }
 
 void USART_sendString(char *data) {
@@ -32,7 +34,7 @@ void Uart1Init() {
              (0xB << 4) |     /* PA9: MODE=11, CNF=10 (AF push-pull, 50MHz) */
                  (0x4 << 8)); /* PA10: MODE=00, CNF=01 (Input floating) */
 
-  double usart_div = FOSC / (BAUD);
+  double usart_div = PCLK2 / (BAUD);
   USART1->BRR = (uint32_t)usart_div;
 
   // Enable Transmission and Reception

@@ -73,6 +73,7 @@ set(COMMON_SOURCES
 # ==================== Timer Encoder Version ====================
 add_executable(encoder_timer.elf
     ${CMAKE_SOURCE_DIR}/src/main.c
+    ${CMAKE_SOURCE_DIR}/src/motor.c
     ${CMAKE_SOURCE_DIR}/src/uart.c
     ${COMMON_SOURCES}
     ${HAL_SOURCES}
@@ -92,6 +93,7 @@ add_custom_command(TARGET encoder_timer.elf POST_BUILD
 add_executable(encoder_exti.elf
     ${CMAKE_SOURCE_DIR}/src/main_exti.c
     ${CMAKE_SOURCE_DIR}/src/encoder.c
+    ${CMAKE_SOURCE_DIR}/src/motor.c
     ${CMAKE_SOURCE_DIR}/src/uart.c
     ${COMMON_SOURCES}
     ${HAL_SOURCES}

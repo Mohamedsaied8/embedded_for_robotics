@@ -1,0 +1,3 @@
+/media/mohamed/Robotics1/repos/embedded_for_robotics/Controller/build/CMakeFiles/controller.elf.dir
+/media/mohamed/Robotics1/repos/embedded_for_robotics/Controller/build/CMakeFiles/edit_cache.dir
+/media/mohamed/Robotics1/repos/embedded_for_robotics/Controller/build/CMakeFiles/rebuild_cache.dir

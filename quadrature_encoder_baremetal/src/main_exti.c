@@ -8,6 +8,7 @@
 
 #include "encoder.h"
 #include "main.h"
+#include "motor.h"
 #include <stdio.h>
 
 /* Function prototypes */
@@ -38,9 +39,15 @@ int main(void) {
   /* Initialize encoder using EXTI */
   Encoder_EXTI_Init();
 
+  /* Initialize motor */
+  Motor_Init();
+
   char buffer[10];
   /* Main loop */
   while (1) {
+    /* Run motor counter-clockwise at 80% speed */
+    Motor_Run_CCW(800);
+
     /* Read encoder count */
     encoder_count = Encoder_EXTI_GetCount();
 

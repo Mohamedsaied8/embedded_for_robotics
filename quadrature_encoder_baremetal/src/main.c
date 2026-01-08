@@ -1,22 +1,28 @@
 /**
  ******************************************************************************
  * @file    main.c
- * @brief   Quadrature Encoder using TIM2 with HAL Structure
+ * @brief   Quadrature Encoder using TIM2 with Motor Control
  *          Uses CMSIS register access
  ******************************************************************************
  * Hardware Setup:
  *   - Encoder Channel A -> PA0 (TIM2_CH1)
  *   - Encoder Channel B -> PA1 (TIM2_CH2)
  *   - LED (optional)    -> PC13 (onboard LED)
+ *   - Motor PWM         -> PA6 (TIM3_CH1)
+ *   - Motor IN1         -> PA4 (GPIO - direction)
+ *   - Motor IN2         -> PA5 (GPIO - direction)
+ *   - Push Button       -> PB4 (Active Low, internal pull-up)
  *
  * Encoder Mode 3: Counts on both TI1 and TI2 edges
+ * Motor Control: Button pressed = CW, Button released = Stop
  ******************************************************************************
  */
 
 #include "main.h"
+#include "motor.h"
 #include "uart.h"
 #include <stdio.h>
- 
+
 /* Function prototypes */
 void SystemClock_Config(void);
 void GPIO_Init(void);
@@ -36,6 +42,7 @@ int main(void) {
   int32_t encoder_count = 0;
   int32_t last_count = 0;
   char buffer[10];
+
   /* Configure system clock */
   SystemClock_Config();
 
@@ -43,19 +50,33 @@ int main(void) {
   GPIO_Init();
   Encoder_Init();
 
+  /* Initialize motor and button */
+  Motor_Init();
+  // Button_Init();
+  Uart1Init(); /* Initialize UART for serial output */
+  RCC->APB2ENR = (1 << 0) | (1 << 2) | (1 << 3) | (1 << 4) | (1 << 11);
+  GPIOA->CRL = 0x33333333;
   /* Main loop */
-  while (1) 
-  {
+  while (1) {
+    /* Check button state and control motor */
+    // if (Button_IsPressed()) {
+    /* Button pressed (active low) -> Motor CW at 80% speed */
+
+    Motor_Run_CW(800);
+    //} else {
+    /* Button released -> Motor Stop */
+    // Motor_Stop();
+    // }
+
     /* Read encoder count */
     encoder_count = Encoder_GetCount();
 
     /* Check if count changed */
-    if (encoder_count != last_count) 
-    {
+    if (encoder_count != last_count) {
       /* Toggle LED to show activity */
       GPIOC->ODR ^= GPIO_ODR_ODR13;
       last_count = encoder_count;
-      sprintf(buffer,"%d", last_count);
+      sprintf(buffer, "%d", last_count);
       USART_sendString(buffer);
     }
 
@@ -72,7 +93,8 @@ void SystemClock_Config(void) {
   SET_BIT(RCC->CR, RCC_CR_HSEON);
 
   /* Wait for HSE to be ready */
-  while (!(RCC->CR & RCC_CR_HSERDY));
+  while (!(RCC->CR & RCC_CR_HSERDY))
+    ;
   /* Configure Flash latency (2 wait states for 72MHz) */
   MODIFY_REG(FLASH->ACR, FLASH_ACR_LATENCY, FLASH_ACR_LATENCY_2);
   SET_BIT(FLASH->ACR, FLASH_ACR_PRFTBE);

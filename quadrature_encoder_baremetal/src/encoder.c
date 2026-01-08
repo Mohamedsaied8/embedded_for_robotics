@@ -9,12 +9,12 @@
  * Useful when timer encoder pins are not available or for learning purposes.
  *
  * Hardware Setup:
- *   - Encoder Channel A -> PA0 (EXTI0)
- *   - Encoder Channel B -> PA1 (EXTI1)
+ *   - Encoder Channel A -> PA1 (EXTI1)
+ *   - Encoder Channel B -> PA2 (EXTI2)
  *
  * How it works:
- *   - EXTI0 triggers on both rising and falling edges of Channel A
- *   - EXTI1 triggers on both rising and falling edges of Channel B
+ *   - EXTI1 triggers on both rising and falling edges of Channel A
+ *   - EXTI2 triggers on both rising and falling edges of Channel B
  *   - Direction is determined by comparing A and B states
  *   - Counter is incremented/decremented in ISR
  *
@@ -42,8 +42,8 @@ static volatile uint8_t last_B = 0;
  *         - If (A XOR last_B) = 0: Counter-clockwise
  */
 static void Encoder_ProcessState(void) {
-  uint8_t A = (GPIOA->IDR >> 0) & 1; /* Read PA0 */
-  uint8_t B = (GPIOA->IDR >> 1) & 1; /* Read PA1 */
+  uint8_t A = (GPIOA->IDR >> 1) & 1; /* Read PA1 */
+  uint8_t B = (GPIOA->IDR >> 2) & 1; /* Read PA2 */
 
   /* Only process if state actually changed */
   if (A != last_A || B != last_B) {
@@ -62,46 +62,44 @@ static void Encoder_ProcessState(void) {
 
 /**
  * @brief  Initialize encoder using external interrupts
+ *         ENC_A = PA1 (EXTI1), ENC_B = PA2 (EXTI2)
  */
 void Encoder_EXTI_Init(void) {
   /* Enable clocks */
   SET_BIT(RCC->APB2ENR, RCC_APB2ENR_IOPAEN); /* GPIOA */
   SET_BIT(RCC->APB2ENR, RCC_APB2ENR_AFIOEN); /* AFIO for EXTI */
 
-  /* Configure PA0 and PA1 as input with pull-up */
+  /* Configure PA1 and PA2 as input with pull-up */
   /* MODE=00 (Input), CNF=10 (Input with pull-up/down) */
-  /* PA0: bits 0-3, PA1: bits 4-7 */
-  // MODIFY_REG(GPIOA->CRL, 0x000000FF,
-  //            (0x8 << 0) |     /* PA0: CNF=10, MODE=00 = 0x8 */
-  //                (0x8 << 4)); /* PA1: CNF=10, MODE=00 = 0x8 */
+  /* PA1: bits 4-7, PA2: bits 8-11 */
+  MODIFY_REG(GPIOA->CRL, 0x00000FF0,
+             (0x8 << 4) |     /* PA1: CNF=10, MODE=00 = 0x8 */
+                 (0x8 << 8)); /* PA2: CNF=10, MODE=00 = 0x8 */
 
-  GPIOA->CRL = (0x8 << 0) |   /* PA0: CNF=10, MODE=00 = 0x8 */
-                 (0x8 << 4); /* PA1: CNF=10, MODE=00 = 0x8 */
+  /* Enable pull-ups on PA1 and PA2 */
+  SET_BIT(GPIOA->ODR, (1 << 1) | (1 << 2));
 
-  /* Enable pull-ups on PA0 and PA1 */
-  SET_BIT(GPIOA->ODR, 0 | 1);
+  /* Configure EXTI1 and EXTI2 to use PA1 and PA2 */
+  /* EXTICR1: EXTI1[7:4] = 0000 (PA1), EXTI2[11:8] = 0000 (PA2) */
+  MODIFY_REG(AFIO->EXTICR[0], 0x0FF0, 0x0000);
 
-  /* Configure EXTI0 and EXTI1 to use PA0 and PA1 */
-  /* EXTICR1: EXTI0 = 0000 (PA0), EXTI1 = 0000 (PA1) */
-  AFIO->EXTICR[0] = 0x0000;
-
-  /* Enable rising and falling edge triggers for EXTI0 and EXTI1 */
-  SET_BIT(EXTI->RTSR, EXTI_RTSR_TR0 | EXTI_RTSR_TR1); /* Rising edge */
-  SET_BIT(EXTI->FTSR, EXTI_FTSR_TR0 | EXTI_FTSR_TR1); /* Falling edge */
+  /* Enable rising and falling edge triggers for EXTI1 and EXTI2 */
+  SET_BIT(EXTI->RTSR, EXTI_RTSR_TR1 | EXTI_RTSR_TR2); /* Rising edge */
+  SET_BIT(EXTI->FTSR, EXTI_FTSR_TR1 | EXTI_FTSR_TR2); /* Falling edge */
 
   /* Clear any pending interrupts */
-  WRITE_REG(EXTI->PR, EXTI_PR_PR0 | EXTI_PR_PR1);
+  WRITE_REG(EXTI->PR, EXTI_PR_PR1 | EXTI_PR_PR2);
 
-  /* Unmask EXTI0 and EXTI1 interrupts */
-  SET_BIT(EXTI->IMR, EXTI_IMR_MR0 | EXTI_IMR_MR1);
+  /* Unmask EXTI1 and EXTI2 interrupts */
+  SET_BIT(EXTI->IMR, EXTI_IMR_MR1 | EXTI_IMR_MR2);
 
-  /* Enable EXTI0 and EXTI1 in NVIC */
-  NVIC_EnableIRQ(EXTI0_IRQn);
+  /* Enable EXTI1 and EXTI2 in NVIC */
   NVIC_EnableIRQ(EXTI1_IRQn);
+  NVIC_EnableIRQ(EXTI2_IRQn);
 
   /* Initialize last state */
-  last_A = (GPIOA->IDR >> 0) & 1;
-  last_B = (GPIOA->IDR >> 1) & 1;
+  last_A = (GPIOA->IDR >> 1) & 1;
+  last_B = (GPIOA->IDR >> 2) & 1;
 
   /* Reset counter */
   encoder_count = 0;
@@ -146,13 +144,13 @@ int8_t Encoder_EXTI_GetDirection(void) {
 /* ================ Interrupt Handlers ================ */
 
 /**
- * @brief  EXTI0 interrupt handler (Channel A edge)
+ * @brief  EXTI1 interrupt handler (Channel A edge - PA1)
  */
-void EXTI0_IRQHandler(void) {
-  /* Check if EXTI0 triggered */
-  if (EXTI->PR & EXTI_PR_PR0) {
+void EXTI1_IRQHandler(void) {
+  /* Check if EXTI1 triggered */
+  if (EXTI->PR & EXTI_PR_PR1) {
     /* Clear pending bit */
-    EXTI->PR = EXTI_PR_PR0;
+    EXTI->PR = EXTI_PR_PR1;
 
     /* Process encoder state */
     Encoder_ProcessState();
@@ -160,13 +158,13 @@ void EXTI0_IRQHandler(void) {
 }
 
 /**
- * @brief  EXTI1 interrupt handler (Channel B edge)
+ * @brief  EXTI2 interrupt handler (Channel B edge - PA2)
  */
-void EXTI1_IRQHandler(void) {
-  /* Check if EXTI1 triggered */
-  if (EXTI->PR & EXTI_PR_PR1) {
+void EXTI2_IRQHandler(void) {
+  /* Check if EXTI2 triggered */
+  if (EXTI->PR & EXTI_PR_PR2) {
     /* Clear pending bit */
-    EXTI->PR = EXTI_PR_PR1;
+    EXTI->PR = EXTI_PR_PR2;
 
     /* Process encoder state */
     Encoder_ProcessState();
@@ -182,17 +180,17 @@ void Encoder_Polling_Init(void) {
   /* Enable GPIOA clock */
   SET_BIT(RCC->APB2ENR, RCC_APB2ENR_IOPAEN);
 
-  /* Configure PA0 and PA1 as input with pull-up */
-  MODIFY_REG(GPIOA->CRL, 0x000000FF,
-             (0x8 << 0) |     /* PA0: CNF=10, MODE=00 */
-                 (0x8 << 4)); /* PA1: CNF=10, MODE=00 */
+  /* Configure PA1 and PA2 as input with pull-up */
+  MODIFY_REG(GPIOA->CRL, 0x00000FF0,
+             (0x8 << 4) |     /* PA1: CNF=10, MODE=00 */
+                 (0x8 << 8)); /* PA2: CNF=10, MODE=00 */
 
   /* Enable pull-ups */
-  SET_BIT(GPIOA->ODR, GPIO_ODR_ODR0 | GPIO_ODR_ODR1);
+  SET_BIT(GPIOA->ODR, GPIO_ODR_ODR1 | GPIO_ODR_ODR2);
 
   /* Initialize state */
-  last_A = (GPIOA->IDR >> 0) & 1;
-  last_B = (GPIOA->IDR >> 1) & 1;
+  last_A = (GPIOA->IDR >> 1) & 1;
+  last_B = (GPIOA->IDR >> 2) & 1;
   encoder_count = 0;
 }
 
